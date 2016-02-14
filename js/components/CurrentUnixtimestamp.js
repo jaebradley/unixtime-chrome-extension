@@ -3,6 +3,8 @@
 var React = require('react');
 var Moment = require('moment');
 
+var Clock = require('./Clock');
+
 var UnixtimeRetriever = React.createClass({
   setTime: function() {
     this.setState({
@@ -24,6 +26,9 @@ var UnixtimeRetriever = React.createClass({
     return (
       <div>
         {this.state.unixtimestamp}
+        <Clock 
+          unixtimestamp={this.state.unixtimestamp}
+        />
       </div>
       )
   }

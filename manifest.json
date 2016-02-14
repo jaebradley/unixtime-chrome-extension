@@ -11,8 +11,8 @@
     }
   ],
   "browser_action": {
-    "default_icon": "static/img/icon.png",
-    "default_popup": "html/popup.html"
+    "default_icon": "public/static/img/icon.png",
+    "default_popup": "public/html/popup.html"
   },
   "background": {
     "scripts": ["js/background.js"]

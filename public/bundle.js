@@ -49,10 +49,10 @@
 	var ReactDOM = __webpack_require__(1);
 	var React = __webpack_require__(147);
 
-	var UnixtimeRetriever = __webpack_require__(159);
+	var CurrentUnixtimestamp = __webpack_require__(159);
 
 	ReactDOM.render(
-	  React.createElement(UnixtimeRetriever, null),
+	  React.createElement(CurrentUnixtimestamp, null),
 	  document.getElementById('unixtime')
 	);
 
@@ -19666,10 +19666,13 @@
 	var React = __webpack_require__(147);
 	var Moment = __webpack_require__(160);
 
-	var UnixtimeRetriever = React.createClass({displayName: "UnixtimeRetriever",
+	var Clock = __webpack_require__(259);
+
+	var CurrentUnixtimestamp = React.createClass({displayName: "CurrentUnixtimestamp",
 	  setTime: function() {
+	    var unixtimestamp = Moment().unix();
 	    this.setState({
-	      unixtimestamp: Moment().unix()
+	      unixtimestamp: unixtimestamp
 	    });
 	  },
 
@@ -19686,13 +19689,18 @@
 	  render: function() {
 	    return (
 	      React.createElement("div", null, 
-	        this.state.unixtimestamp
+	        React.createElement(Clock, {
+	          unixtimestamp: this.state.unixtimestamp}
+	        ), 
+	        React.createElement("div", {className: "timestamp"}, 
+	          this.state.unixtimestamp
+	        )
 	      )
 	      )
 	  }
 	});
 
-	module.exports = UnixtimeRetriever;
+	module.exports = CurrentUnixtimestamp;
 
 /***/ },
 /* 160 */
@@ -32511,6 +32519,76 @@
 	    return zh_tw;
 
 	}));
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use es6";
+
+	var React = __webpack_require__(147);
+	var Moment = __webpack_require__(160);
+
+	var ClockFace = __webpack_require__(260);
+
+	var Clock = React.createClass({displayName: "Clock",
+
+	  start: function() {
+	    var self = this;
+	    (function tick() {
+	      window.requestAnimationFrame(tick);
+	    }());
+	  },
+
+	  componentDidMount: function() {
+	    this.start();
+	  },
+
+	  render: function() {
+	    return React.createElement(ClockFace, {date: this.props.unixtimestamp});
+	  }
+
+	});
+
+	module.exports = Clock;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(147);
+	var Moment = __webpack_require__(160);
+
+	var ClockFace = React.createClass({displayName: "ClockFace",
+
+	  transform: function(str) {
+	    return { transform: str };
+	  },
+
+	  rotate: function(deg) {
+	    return 'rotate(' + deg + 'deg)';
+	  },
+
+	  render: function() {
+	    var day = Moment(this.props.unixtimestamp);
+	    var millis = day.millisecond();
+	    var second = day.second() * 6 + millis * (6 / 1000);
+	    var minute = day.minute() * 6 + second / 60;
+	    var hour = ((day.hour() % 12) / 12) * 360 + 90 + minute / 12;
+
+	    return (
+	      React.createElement("div", {className: "clock"}, 
+	        React.createElement("div", {className: "face"}, 
+	          React.createElement("div", {className: "second", style: this.transform(this.rotate(second))}), 
+	          React.createElement("div", {className: "hour", style: this.transform(this.rotate(hour))}), 
+	          React.createElement("div", {className: "minute", style: this.transform(this.rotate(minute))})
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ClockFace;
 
 /***/ }
 /******/ ]);

@@ -20,11 +20,6 @@ li {
   width: 475px;
 }
 
-/*.formatted-timestamp {
-  white-space: nowrap;
-  overflow: hidden;
-}*/
-
   .unixtimestamp {
     display: inline-block;
     width: 60%;
@@ -81,11 +76,23 @@ li {
 }
 
 .hours {
-  width: 120px;
+  width: 150px;
+  margin-bottom: 12px;
 }
 
 .timeOfDay {
-  width: 120px;
+  width: 150px;
+  margin-bottom: 12px;
+}
+
+.minutes {
+  width: 150px;
+  margin-bottom: 12px;
+}
+
+.seconds {
+  width: 150px;
+  margin-bottom: 12px;
 }
 
 #react {
@@ -98,8 +105,14 @@ li {
 
 .input-calendar {
     font-family: 'Pontano Sans', sans-serif;
-    width: 375px;
+    width: 475px;
     position: relative;
+    margin-bottom: 12px;
+}
+
+.input-calendar input {
+  height: 26px;
+  font-size: 14px;
 }
 
 .input-calendar-wrapper {
@@ -111,7 +124,7 @@ li {
     background-color: #fff;
     width: 189px;
     text-align: center;
-    left: 140px;
+    left: 180px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;

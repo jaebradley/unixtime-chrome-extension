@@ -4,11 +4,13 @@ var ReactDOM = require('react-dom');
 var React = require('react');
 var Tabs = require('react-simpletabs');
 var Panel = Tabs.Panel;
+var Moment = require('moment');
 
 var CurrentUnixtimestamp = require('./components/CurrentUnixtimestamp');
 var Conversion = require('./components/Conversion');
 
 var App = React.createClass({
+
   render: function() {
     return (
       <Tabs>

@@ -19973,23 +19973,23 @@
 
 	  render: function() {
 	    return (
-	      React.createElement("div", null, 
-	        React.createElement(Clock, {
-	          unixtimestamp: this.state.unixtimestamp}
+	      React.createElement("div", {className: "unixtimestamp-container"}, 
+	        React.createElement("div", {className: "clock-container"}, 
+	          React.createElement(Clock, {
+	            unixtimestamp: this.state.unixtimestamp}
+	          )
 	        ), 
-	        React.createElement("div", {className: "unixtimestamp"}, 
-	          React.createElement("div", {className: "unixtimestamp-value"}, 
-	            this.state.unixtimestamp
-	          ), 
+	        React.createElement("ul", {className: "unixtimestamp"}, 
+	          React.createElement("li", null, this.state.unixtimestamp, 
 	          React.createElement(Clipboard, {
 	            className: "unixtimestamp-clipboard", 
 	            text: this.state.unixtimestamp.toString(), 
 	            onCopy: this.handleCopy}, 
 	            React.createElement("button", null, "Copy")
+	          )), 
+	           React.createElement("li", null, 
+	            Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
 	          )
-	        ), 
-	        React.createElement("div", {className: "formatted-timestamp"}, 
-	          Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
 	        )
 	      )
 	      )

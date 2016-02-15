@@ -30,24 +30,26 @@ var CurrentUnixtimestamp = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <Clock 
-          unixtimestamp={this.state.unixtimestamp}
-        />
-        <div className="unixtimestamp">
-          <div className="unixtimestamp-value">
-            {this.state.unixtimestamp}
-          </div>
-          <Clipboard 
-            className="unixtimestamp-clipboard"
-            text={this.state.unixtimestamp.toString()} 
-            onCopy={this.handleCopy}>
-            <button>Copy</button>
-          </Clipboard>
+      <div className="unixtimestamp-container">
+        <div className="clock-container">
+          <Clock
+            unixtimestamp={this.state.unixtimestamp}
+          />
         </div>
-        <div className="formatted-timestamp">
-          {Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")}
-        </div>
+        <ul className="unixtimestamp">
+          <li>
+            <div className="unixtimestamp-value">{this.state.unixtimestamp}</div>
+            <Clipboard 
+              className="unixtimestamp-clipboard"
+              text={this.state.unixtimestamp.toString()} 
+              onCopy={this.handleCopy}>
+              <button>Copy</button>
+            </Clipboard>
+          </li>
+           <li>
+            {Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+          </li>
+        </ul>
       </div>
       )
   }

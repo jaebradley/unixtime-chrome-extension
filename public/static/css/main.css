@@ -7,14 +7,37 @@
 
 }
 
-.formatted-timestamp {
+ul
+{
+    list-style-type: none;
+}
+
+li {
+  margin:0 0 20px 0;
+}
+
+.unixtimestamp-container {
+  width: 475px;
+}
+
+/*.formatted-timestamp {
   white-space: nowrap;
   overflow: hidden;
-}
+}*/
 
-.unixtimestamp {
+  .unixtimestamp {
+    display: inline-block;
+    width: 60%;
+    float: right;
+    vertical-align: -50%;
+  }
 
-}
+  .clock-container {
+    display: inline-block;
+    width: 20%;
+  }
+
+
   .unixtimestamp-value {
     display: inline-block;
     width: 50%;
@@ -23,6 +46,11 @@
   .unixtimestamp-clipboard {
     display: inline-block;
     width: 50%;
+    float: right;
+  }
+
+  .formatted-timestamp {
+    display: inline-block;
   }
 
 .tabs-menu {

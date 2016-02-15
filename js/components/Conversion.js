@@ -154,10 +154,26 @@ var Conversion = React.createClass({
   },
 
   onUnixtimestampToDateTimeChange: function(e) {
-    console.log(e);
     this.setState({
-      unixtimestampToDateTime: e.value
+      unixtimestampToDateTime: Number(e.target.value)
     })
+  },
+
+  convertFromUnixtimestampToDateTime: function() {
+    var dateTime = Moment.unix(this.state.unixtimestampToDateTime);
+    var timeOfDay = dateTime.format('A');
+    if ('PM' == timeOfDay) {
+      var hour = dateTime.hour() - 12;
+    } else {
+      var hour = dateTime.hour();
+    }
+    this.setState({
+      date: dateTime.format('MM/DD/YYYY'),
+      hour: hour,
+      timeOfDay: timeOfDay,
+      minute: dateTime.minute(),
+      second: dateTime.second(),
+    });
   },
 
   render: function() {
@@ -217,8 +233,9 @@ var Conversion = React.createClass({
           </Clipboard>
         </div>
         <div>
-          <input type="text" onChange={onUnixtimestampToDateTimeChange}></input>
-          <button>Convert to date</button>
+          <input type="text" onChange={this.onUnixtimestampToDateTimeChange}></input>
+          <button onClick={this.convertFromUnixtimestampToDateTime}>Convert to date</button>
+        </div>
       </div>
     );
   }

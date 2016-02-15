@@ -33186,7 +33186,8 @@
 	      timeOfDay: null,
 	      minute: null,
 	      second: null,
-	      convertedUnixtimestamp: null
+	      convertedUnixtimestamp: null,
+	      unixtimestampToDateTime: null,
 	    };
 	  },
 
@@ -33233,6 +33234,29 @@
 	    } else {
 	      alert("Must fill out all fields in order to convert to unixtimestamp");
 	    }
+	  },
+
+	  onUnixtimestampToDateTimeChange: function(e) {
+	    this.setState({
+	      unixtimestampToDateTime: Number(e.target.value)
+	    })
+	  },
+
+	  convertFromUnixtimestampToDateTime: function() {
+	    var dateTime = Moment.unix(this.state.unixtimestampToDateTime);
+	    var timeOfDay = dateTime.format('A');
+	    if ('PM' == timeOfDay) {
+	      var hour = dateTime.hour() - 12;
+	    } else {
+	      var hour = dateTime.hour();
+	    }
+	    this.setState({
+	      date: dateTime.format('MM/DD/YYYY'),
+	      hour: hour,
+	      timeOfDay: timeOfDay,
+	      minute: dateTime.minute(),
+	      second: dateTime.second(),
+	    });
 	  },
 
 	  render: function() {
@@ -33290,6 +33314,10 @@
 	            text: convertedUnixtimestamp}, 
 	            React.createElement("button", null, "Copy")
 	          )
+	        ), 
+	        React.createElement("div", null, 
+	          React.createElement("input", {type: "text", onChange: this.onUnixtimestampToDateTimeChange}), 
+	          React.createElement("button", {onClick: this.convertFromUnixtimestampToDateTime}, "Convert to date")
 	        )
 	      )
 	    );

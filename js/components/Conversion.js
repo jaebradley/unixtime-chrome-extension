@@ -103,7 +103,8 @@ var Conversion = React.createClass({
       timeOfDay: null,
       minute: null,
       second: null,
-      convertedUnixtimestamp: null
+      convertedUnixtimestamp: null,
+      unixtimestampToDateTime: null,
     };
   },
 
@@ -150,6 +151,13 @@ var Conversion = React.createClass({
     } else {
       alert("Must fill out all fields in order to convert to unixtimestamp");
     }
+  },
+
+  onUnixtimestampToDateTimeChange: function(e) {
+    console.log(e);
+    this.setState({
+      unixtimestampToDateTime: e.value
+    })
   },
 
   render: function() {
@@ -208,6 +216,9 @@ var Conversion = React.createClass({
             <button>Copy</button>
           </Clipboard>
         </div>
+        <div>
+          <input type="text" onChange={onUnixtimestampToDateTimeChange}></input>
+          <button>Convert to date</button>
       </div>
     );
   }

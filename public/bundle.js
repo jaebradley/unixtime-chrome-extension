@@ -19694,6 +19694,9 @@
 	        ), 
 	        React.createElement("div", {className: "timestamp"}, 
 	          this.state.unixtimestamp
+	        ), 
+	        React.createElement("div", {className: "formatted-timestamp"}, 
+	          Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
 	        )
 	      )
 	      )
@@ -32533,15 +32536,12 @@
 
 	var Clock = React.createClass({displayName: "Clock",
 
-	  start: function() {
-	    var self = this;
-	    (function tick() {
-	      window.requestAnimationFrame(tick);
-	    }());
+	  tick: function() {
+	    window.requestAnimationFrame(this.tick);
 	  },
 
 	  componentDidMount: function() {
-	    this.start();
+	    this.tick();
 	  },
 
 	  render: function() {

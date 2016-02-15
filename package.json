@@ -33,7 +33,9 @@
     "react-datepicker": "^0.18.0",
     "react-dom": "^0.14.0",
     "browserify": "13.0.0",
-    "deepcopy": "0.6.1"
+    "deepcopy": "0.6.1",
+    "react-simpletabs": "^0.7.0",
+    "react-clipboard": "^1.2.0"
   },
   "devDependencies": {
     "http-server": "^0.8.0",

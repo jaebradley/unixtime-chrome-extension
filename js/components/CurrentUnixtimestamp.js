@@ -29,8 +29,11 @@ var CurrentUnixtimestamp = React.createClass({
         <Clock 
           unixtimestamp={this.state.unixtimestamp}
         />
-        <div className = "timestamp">
+        <div className="timestamp">
           {this.state.unixtimestamp}
+        </div>
+        <div className="formatted-timestamp">
+          {Moment.unix(this.state.unixtimestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")}
         </div>
       </div>
       )

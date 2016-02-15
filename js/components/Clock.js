@@ -7,15 +7,12 @@ var ClockFace = require('./ClockFace');
 
 var Clock = React.createClass({
 
-  start: function() {
-    var self = this;
-    (function tick() {
-      window.requestAnimationFrame(tick);
-    }());
+  tick: function() {
+    window.requestAnimationFrame(this.tick);
   },
 
   componentDidMount: function() {
-    this.start();
+    this.tick();
   },
 
   render: function() {

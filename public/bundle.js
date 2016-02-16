@@ -33090,18 +33090,18 @@
 	var Clipboard = __webpack_require__(260);
 
 	var hours = [
-	    { value: 1, label: 1 },
-	    { value: 2, label: 2 },
-	    { value: 3, label: 3 },
-	    { value: 4, label: 4 },
-	    { value: 5, label: 5 },
-	    { value: 6, label: 6 },
-	    { value: 7, label: 7 },
-	    { value: 8, label: 8 },
-	    { value: 9, label: 9 },
-	    { value: 10, label: 10 },
-	    { value: 11, label: 11 },
-	    { value: 12, label: 12 },
+	    { value: 1, label: 1, type: 'hours' },
+	    { value: 2, label: 2, type: 'hours' },
+	    { value: 3, label: 3, type: 'hours' },
+	    { value: 4, label: 4, type: 'hours' },
+	    { value: 5, label: 5, type: 'hours' },
+	    { value: 6, label: 6, type: 'hours' },
+	    { value: 7, label: 7, type: 'hours' },
+	    { value: 8, label: 8, type: 'hours' },
+	    { value: 9, label: 9, type: 'hours' },
+	    { value: 10, label: 10, type: 'hours' },
+	    { value: 11, label: 11, type: 'hours' },
+	    { value: 12, label: 12, type: 'hours' },
 	];
 
 	var timesOfDay = [
@@ -33129,7 +33129,7 @@
 	    { value: 15, label: 15 },
 	    { value: 16, label: 16 },
 	    { value: 17, label: 17 },
-	    { value: 18, label: 19 },
+	    { value: 18, label: 18 },
 	    { value: 19, label: 19 },
 	    { value: 20, label: 20 },
 	    { value: 21, label: 21 },
@@ -33186,8 +33186,7 @@
 	      timeOfDay: null,
 	      minute: null,
 	      second: null,
-	      convertedUnixtimestamp: null,
-	      unixtimestampToDateTime: null,
+	      unixtimestamp: null
 	    };
 	  },
 
@@ -33201,69 +33200,63 @@
 	    this.setState({
 	      hour: obj.value
 	    });
+	    this.calculateConversionToUnixtimestamp();
 	  },
 
 	  onMinuteChange: function(obj) {
 	    this.setState({
 	      minute: obj.value
 	    });
+	    this.calculateConversionToUnixtimestamp();
 	  },
 
 	  onSecondChange: function(obj) {
 	    this.setState({
 	      second: obj.value
 	    });
+	    this.calculateConversionToUnixtimestamp();
 	  },
 
 	  onTimeOfDayChange: function(obj) {
 	    this.setState({
 	      timeOfDay: obj.value
 	    });
+
+	    this.calculateConversionToUnixtimestamp();
 	  },
 
 	  getDateTimeString: function() {
 	    return this.state.date + '/' + this.state.hour + '/' + this.state.minute + '/' + this.state.second + '/' + this.state.timeOfDay;
 	  },
 
-	  calculateConversionToUnixtimestamp: function(e) {
+	  calculateConversionToUnixtimestamp: function() {
 	    if (this.state.hour != null && this.state.timeOfDay != null && this.state.minute != null && this.state.second != null) {
-	      var dateTime = Moment(this.getDateTimeString(), 'MM/DD/YYYY/HH/mm/ss/a');
+	      var dateTime = Moment(this.getDateTimeString(), 'MM/DD/YYYY/hh/mm/ss/A');
 	      this.setState({
-	        convertedUnixtimestamp: dateTime.unix()
-	      })
-	    } else {
-	      alert("Must fill out all fields in order to convert to unixtimestamp");
+	        unixtimestamp: dateTime.unix()
+	      });
 	    }
 	  },
 
 	  onUnixtimestampToDateTimeChange: function(e) {
-	    this.setState({
-	      unixtimestampToDateTime: Number(e.target.value)
-	    })
-	  },
-
-	  convertFromUnixtimestampToDateTime: function() {
-	    var dateTime = Moment.unix(this.state.unixtimestampToDateTime);
-	    var timeOfDay = dateTime.format('A');
-	    if ('PM' == timeOfDay) {
-	      var hour = dateTime.hour() - 12;
-	    } else {
-	      var hour = dateTime.hour();
-	    }
+	    var dateTime = Moment.unix(e.target.value);
 	    this.setState({
 	      date: dateTime.format('MM/DD/YYYY'),
-	      hour: hour,
-	      timeOfDay: timeOfDay,
+	      hour: Number(dateTime.format('hh')),
+	      timeOfDay: dateTime.format('A'),
 	      minute: dateTime.minute(),
 	      second: dateTime.second(),
+	      unixtimestamp: Number(e.target.value)
 	    });
 	  },
 
 	  render: function() {
-	    if (this.state.convertedUnixtimestamp != null) {
-	      var convertedUnixtimestamp = this.state.convertedUnixtimestamp.toString();  
+	    if (this.state.unixtimestamp != null) {
+	      var dateTime = Moment.unix(this.state.unixtimestamp).format("MM/DD/YYYY hh:mm:ss A");
+	      var unixtimestamp = this.state.unixtimestamp;
 	    } else {
-	      var convertedUnixtimestamp = "No unixtimestamp converted";
+	      var unixtimestamp = "No unix timestamp";
+	      var dateTime = "No date time";
 	    }
 	    
 	    return (
@@ -33272,7 +33265,7 @@
 	          format: "MM/DD/YYYY", 
 	          date: this.state.date}
 	        ), 
-	        React.createElement("div", null, 
+	        React.createElement("div", {onChange: this.calculateConversionToUnixtimestamp}, 
 	          React.createElement(Select, {
 	            className: "hours", 
 	            name: "hour", 
@@ -33306,18 +33299,14 @@
 	            onChange: this.onSecondChange}
 	          )
 	        ), 
-	        React.createElement("button", {onClick: this.calculateConversionToUnixtimestamp}, "Convert to Unixtimestamp"), 
 	        React.createElement("div", null, 
-	          React.createElement("div", {className: "unixtimestamp-value"}, convertedUnixtimestamp), 
+	          React.createElement("input", {type: "text", onChange: this.onUnixtimestampToDateTimeChange}, unixtimestamp), 
+	          React.createElement("div", null, dateTime), 
 	          React.createElement(Clipboard, {
 	            className: "unixtimestamp-clipboard", 
-	            text: convertedUnixtimestamp}, 
+	            text: dateTime}, 
 	            React.createElement("button", null, "Copy")
 	          )
-	        ), 
-	        React.createElement("div", null, 
-	          React.createElement("input", {type: "text", onChange: this.onUnixtimestampToDateTimeChange}), 
-	          React.createElement("button", {onClick: this.convertFromUnixtimestampToDateTime}, "Convert to date")
 	        )
 	      )
 	    );

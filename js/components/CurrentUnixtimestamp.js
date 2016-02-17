@@ -43,7 +43,7 @@ var CurrentUnixtimestamp = React.createClass({
               className="unixtimestamp-clipboard"
               text={this.state.unixtimestamp.toString()} 
               onCopy={this.handleCopy}>
-              <button>Copy</button>
+              <button className="unixtimestamp-clipboard-copy">Copy</button>
             </Clipboard>
           </li>
            <li>

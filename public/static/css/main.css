@@ -17,7 +17,7 @@ li {
 }
 
 .unixtimestamp-container {
-  width: 475px;
+  width: 410px;
 }
 
   .unixtimestamp {
@@ -40,13 +40,28 @@ li {
 
   .unixtimestamp-clipboard {
     display: inline-block;
-    width: 50%;
-    float: right;
+    width: 20%;
   }
 
   .formatted-timestamp {
     display: inline-block;
   }
+
+.conversion-image {
+  height: 50px;
+  background-color: white;
+  padding-left: 50px;
+}
+
+.unixtimestamp-to-convert {
+  width: 150px;
+  margin-bottom: 12px;
+  height: 26px;
+}
+
+.unixtimestamp-to-convert-copy {
+  margin-left: 5px;
+}
 
 .tabs-menu {
   display: table;
@@ -105,7 +120,7 @@ li {
 
 .input-calendar {
     font-family: 'Pontano Sans', sans-serif;
-    width: 475px;
+    width: 410px;
     position: relative;
     margin-bottom: 12px;
 }

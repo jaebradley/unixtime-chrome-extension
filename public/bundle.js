@@ -32806,7 +32806,7 @@
 	              className: "unixtimestamp-clipboard", 
 	              text: this.state.unixtimestamp.toString(), 
 	              onCopy: this.handleCopy}, 
-	              React.createElement("button", null, "Copy")
+	              React.createElement("button", {className: "unixtimestamp-clipboard-copy"}, "Copy")
 	            )
 	          ), 
 	           React.createElement("li", null, 
@@ -33104,52 +33104,76 @@
 	    };
 	  },
 
-	  componentWillMount: function() {
-	  },
-
-	  componentDidMount: function() {
+	  onDateChange: function(obj) {
+	    var result = obj.replace("-", "/").replace("-","/");
+	    this.calculateConversionToUnixtimestamp(
+	      result,
+	      this.state.hour,
+	      this.state.timeOfDay,
+	      this.state.minute,
+	      this.state.second
+	    );
 	  },
 
 	  onHourChange: function(obj) {
-	    this.setState({
-	      hour: obj.value
-	    });
-	    this.calculateConversionToUnixtimestamp();
+	    this.calculateConversionToUnixtimestamp(
+	      this.state.date,
+	      obj.value,
+	      this.state.timeOfDay,
+	      this.state.minute,
+	      this.state.second
+	    );
 	  },
 
 	  onMinuteChange: function(obj) {
-	    this.setState({
-	      minute: obj.value
-	    });
-	    this.calculateConversionToUnixtimestamp();
+	    this.calculateConversionToUnixtimestamp(
+	      this.state.date,
+	      this.state.hour,
+	      this.state.timeOfDay,
+	      obj.value,
+	      this.state.second
+	    );
 	  },
 
 	  onSecondChange: function(obj) {
-	    this.setState({
-	      second: obj.value
-	    });
-	    this.calculateConversionToUnixtimestamp();
+	    this.calculateConversionToUnixtimestamp(
+	      this.state.date,
+	      this.state.hour,
+	      this.state.timeOfDay,
+	      this.state.minute,
+	      obj.value
+	    );
 	  },
 
 	  onTimeOfDayChange: function(obj) {
-	    this.setState({
-	      timeOfDay: obj.value
-	    });
-
-	    this.calculateConversionToUnixtimestamp();
+	    this.calculateConversionToUnixtimestamp(
+	      this.state.date,
+	      this.state.hour,
+	      obj.value,
+	      this.state.minute,
+	      this.state.second
+	    );
 	  },
 
-	  getDateTimeString: function() {
-	    return this.state.date + '/' + this.state.hour + '/' + this.state.minute + '/' + this.state.second + '/' + this.state.timeOfDay;
+	  getDateTimeString: function(date, hour, minute, second, timeOfDay) {
+	    return date + '/' + hour + '/' + minute + '/' + second + '/' + timeOfDay;
 	  },
 
-	  calculateConversionToUnixtimestamp: function() {
-	    if (this.state.hour != null && this.state.timeOfDay != null && this.state.minute != null && this.state.second != null) {
-	      var dateTime = Moment(this.getDateTimeString(), 'MM/DD/YYYY/hh/mm/ss/A');
-	      this.setState({
-	        unixtimestamp: dateTime.unix()
-	      });
+	  calculateConversionToUnixtimestamp: function(date, hour, timeOfDay, minute, second) {
+	    var unixtimestamp = null;
+	    if (hour != null && timeOfDay != null && minute != null && second != null) {
+	      var dateTime = Moment(this.getDateTimeString(date, hour, minute, second, timeOfDay), 'MM/DD/YYYY/hh/mm/ss/A');
+	      var unixtimestamp = dateTime.unix();
 	    }
+
+	    this.setState({
+	      date: date,
+	      hour: hour,
+	      timeOfDay: timeOfDay,
+	      minute: minute,
+	      second: second,
+	      unixtimestamp: unixtimestamp
+	    });
 	  },
 
 	  onUnixtimestampToDateTimeChange: function(e) {
@@ -33162,6 +33186,12 @@
 	      second: dateTime.second(),
 	      unixtimestamp: Number(e.target.value)
 	    });
+	  },
+
+	  handleCopy: function(e) {
+	    var unixtimestampInput = document.querySelector(".unixtimestamp-to-convert");
+	    unixtimestampInput.select();
+	    document.execCommand('copy');
 	  },
 
 	  render: function() {
@@ -33177,9 +33207,10 @@
 	      React.createElement("div", null, 
 	        React.createElement(Calendar, {
 	          format: "MM/DD/YYYY", 
-	          date: this.state.date}
+	          date: this.state.date, 
+	          onChange: this.onDateChange}
 	        ), 
-	        React.createElement("div", {onChange: this.calculateConversionToUnixtimestamp}, 
+	        React.createElement("div", null, 
 	          React.createElement(Select, {
 	            className: "hours", 
 	            name: "hour", 
@@ -33213,14 +33244,20 @@
 	            onChange: this.onSecondChange}
 	          )
 	        ), 
+	        React.createElement("img", {
+	          className: "conversion-image", 
+	          src: "../../public/static/img/up-down-arrow.png"}), 
 	        React.createElement("div", null, 
-	          React.createElement("input", {type: "text", onChange: this.onUnixtimestampToDateTimeChange}, unixtimestamp), 
-	          React.createElement("div", null, dateTime), 
-	          React.createElement(Clipboard, {
-	            className: "unixtimestamp-clipboard", 
-	            text: dateTime}, 
-	            React.createElement("button", null, "Copy")
-	          )
+	          React.createElement("input", {
+	            className: "unixtimestamp-to-convert", 
+	            type: "text", 
+	            onChange: this.onUnixtimestampToDateTimeChange, 
+	            value: unixtimestamp}), 
+	            React.createElement("button", {
+	              className: "unixtimestamp-to-convert-copy", 
+	              onClick: this.handleCopy}, "Copy"
+	            ), 
+	          React.createElement("div", null, dateTime)
 	        )
 	      )
 	    );

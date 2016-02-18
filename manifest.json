@@ -7,7 +7,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["lib/jquery-2.2.0.min.js", "js/content.js"]
+      "js": ["js/content.js"]
     }
   ],
   "browser_action": {
@@ -16,5 +16,8 @@
   },
   "background": {
     "scripts": ["js/background.js"]
-  }
+  },
+  "permissions": [
+    "storage"
+  ]
 }

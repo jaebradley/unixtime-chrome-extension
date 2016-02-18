@@ -19,31 +19,18 @@
     "node": "4.2.2"
   },
   "dependencies": {
-    "axios": "^0.4.2",
-    "ecstatic": "^0.5.8",
     "es6-promise": "^2.0.1",
-    "events": "^1.0.2",
-    "express": "^4.10.6",
-    "flux": "^2.0.1",
-    "hashmap": "^2.0.4",
-    "jquery": "^2.1.4",
     "moment": "^2.11.0",
-    "q": "^1.4.1",
     "react": "^0.14.7",
-    "react-datepicker": "^0.18.0",
     "react-dom": "^0.14.0",
-    "browserify": "13.0.0",
-    "deepcopy": "0.6.1",
     "react-simpletabs": "^0.7.0",
     "react-copy-to-clipboard": "latest",
     "react-input-calendar": "latest",
-    "react-select": "latest"
+    "react-select": "latest",
+    "store": "latest"
   },
   "devDependencies": {
-    "http-server": "^0.8.0",
     "jsx-loader": "^0.12.2",
-    "mocha": "latest",
-    "watch": "latest",
     "webpack": "^1.5.3"
   }
 }
